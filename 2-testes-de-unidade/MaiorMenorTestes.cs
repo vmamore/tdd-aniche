@@ -45,7 +45,9 @@ namespace testes_de_unidade
             foreach(var produto in carrinho.Produtos){
                 if(Menor == null || produto.Valor < Menor.Valor){
                     Menor = produto;
-                } else if (Maior == null || produto.Valor > Maior.Valor){
+                }
+                
+                if (Maior == null || produto.Valor > Maior.Valor){
                     Maior = produto;
                 }
             }
