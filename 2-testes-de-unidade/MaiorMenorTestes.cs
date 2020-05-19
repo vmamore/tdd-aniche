@@ -20,6 +20,21 @@ namespace testes_de_unidade
             Assert.Equal("Jogo de Pratos", algoritmo.Menor.Nome);
             Assert.Equal("Geladeira", algoritmo.Maior.Nome);
         }
+
+        [Fact]
+        public void TestaMaiorEMenorQueFalha()
+        {
+            CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
+            carrinho.Adiciona(new Produto(450.0m, "Geladeira"));
+            carrinho.Adiciona(new Produto(250.0m, "Liquidificador"));
+            carrinho.Adiciona(new Produto(70.0m, "Jogo de Pratos"));
+
+            MaiorMenor algoritmo = new MaiorMenor();
+            algoritmo.Encontra(carrinho);
+
+            Assert.Equal("Jogo de Pratos", algoritmo.Menor.Nome);
+            Assert.Equal("Geladeira", algoritmo.Maior.Nome);
+        }
     }
 
     public class MaiorMenor {
