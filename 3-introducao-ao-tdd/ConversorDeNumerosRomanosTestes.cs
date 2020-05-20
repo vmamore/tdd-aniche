@@ -21,6 +21,14 @@ namespace introducao_ao_tdd
             int numero = romano.Converte("V");
             Assert.Equal(5, numero);
         }
+
+        [Fact]
+        public void DeveEntenderDoisSimbolosComoII()
+        {
+            ConversorDeNumeroRomano romano = new ConversorDeNumeroRomano();
+            int numero = romano.Converte("II");
+            Assert.Equal(2, numero);
+        }
     }
 
     public class ConversorDeNumeroRomano {
