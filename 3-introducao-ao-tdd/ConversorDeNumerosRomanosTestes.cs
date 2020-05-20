@@ -24,7 +24,10 @@ namespace introducao_ao_tdd
 
     public class ConversorDeNumeroRomano {
         public int Converte(string numeroEmRomano){
-            return 1;
+            if(numeroEmRomano.Equals("I")) return 1;
+            else if(numeroEmRomano.Equals("V")) return 5;
+
+            return 0;
         }
     }
 }
