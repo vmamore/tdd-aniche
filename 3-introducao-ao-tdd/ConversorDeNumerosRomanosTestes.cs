@@ -2,6 +2,14 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
+
+/*
+    Escrevemos um teste de unidade para nova funcionalidade
+    Vimos o teste falhar
+    Implementamos o código mais simples que resolve o problema
+    Vimos o teste passar
+    Refatoramos o código quando necessário
+*/
 namespace introducao_ao_tdd
 {
     public class ConversorDeNumeroRomanoTestes
