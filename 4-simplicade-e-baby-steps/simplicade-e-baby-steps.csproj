@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>testes_de_unidade</RootNamespace>
+    <RootNamespace>simplicade_e_baby_steps</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>

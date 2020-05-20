@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace testes_de_unidade
+namespace simplicade_e_baby_steps
 {
     public class UnitTest1
     {
