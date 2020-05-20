@@ -58,7 +58,10 @@ namespace simplicade_e_baby_steps
 
     public class CalculadoraDeSalario {
         public decimal CalculaSalario(Funcionario funcionario){
-            return 1500m * 0.9m;
+            if(funcionario.Salario > 3000){
+                return funcionario.Salario * 0.8m;
+            }
+            return funcionario.Salario * 0.9m;
         }
     }
 }
