@@ -3,12 +3,17 @@ using Xunit;
 
 namespace simplicade_e_baby_steps
 {
-    public class CalculoDeSalarioTests
+    public class CalculadoraDeSalarioTestes
     {
         [Fact]
-        public void Test1()
+        public void DeveCalcularSalarioParaDesenvolvedoresComSalarioAbaixoDoLimite()
         {
+            CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
+            Funcionario desenvolvedor = new Funcionario("Vinicius", 1500.0m, Cargo.DESENVOLVEDOR);
 
+            double salario = calculadora.CalculaSalario(desenvolvedor);
+
+            Assert.Equals(1500.0 * 0.9, salario, 0.00001);
         }
     }
 
