@@ -22,7 +22,7 @@ namespace testes_de_unidade
         }
 
         [Fact]
-        public void TestaMaiorEMenorQueFalha()
+        public void TestaMaiorEMenorDecrescente()
         {
             CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
             carrinho.Adiciona(new Produto(450.0m, "Geladeira"));
@@ -33,6 +33,19 @@ namespace testes_de_unidade
             algoritmo.Encontra(carrinho);
 
             Assert.Equal("Jogo de Pratos", algoritmo.Menor.Nome);
+            Assert.Equal("Geladeira", algoritmo.Maior.Nome);
+        }
+
+        [Fact]
+        public void TestaMaiorEMenorApenasUmProduto()
+        {
+            CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
+            carrinho.Adiciona(new Produto(450.0m, "Geladeira"));
+
+            MaiorMenor algoritmo = new MaiorMenor();
+            algoritmo.Encontra(carrinho);
+
+            Assert.Equal("Geladeira", algoritmo.Menor.Nome);
             Assert.Equal("Geladeira", algoritmo.Maior.Nome);
         }
     }
@@ -46,7 +59,7 @@ namespace testes_de_unidade
                 if(Menor == null || produto.Valor < Menor.Valor){
                     Menor = produto;
                 }
-                
+
                 if (Maior == null || produto.Valor > Maior.Valor){
                     Maior = produto;
                 }
