@@ -15,6 +15,16 @@ namespace simplicade_e_baby_steps
 
             Assert.Equal(1500.0m * 0.9m, salario);
         }
+
+        [Fact]
+        public void DeveCalcularSalarioParaDesenvolvedorComSalarioAcimaDoLimite(){
+            CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
+            Funcionario desenvolvedor = new Funcionario("Vinicius", 4000.0m, Cargo.DESENVOLVEDOR);
+
+            decimal salario = calculadora.CalculaSalario(desenvolvedor);
+
+            Assert.Equal(4000.0m * 0.8m, salario);
+        }
     }
 
     public enum Cargo {
