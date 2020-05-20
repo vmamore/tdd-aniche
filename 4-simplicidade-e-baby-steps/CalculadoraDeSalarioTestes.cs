@@ -25,6 +25,16 @@ namespace simplicade_e_baby_steps
 
             Assert.Equal(4000.0m * 0.8m, salario);
         }
+
+        [Fact]
+        public void DeveCalcularSalarioParaDBAsComSalarioAbaixoDoLimite(){
+            CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
+            Funcionario desenvolvedor = new Funcionario("Vinicius", 500.0m, Cargo.DBA);
+
+            decimal salario = calculadora.CalculaSalario(desenvolvedor);
+
+            Assert.Equal(500.0m * 0.85m, salario);
+        }
     }
 
     public enum Cargo {
@@ -47,8 +57,12 @@ namespace simplicade_e_baby_steps
 
     public class CalculadoraDeSalario {
         public decimal CalculaSalario(Funcionario funcionario){
-            if(funcionario.Salario > 3000) return 3200.0m;
-            return 1350.0m;
+            if(funcionario.Cargo == Cargo.DESENVOLVEDOR){
+                if(funcionario.Salario > 3000) return 3200.0m;
+                return 1350.0m;
+            }
+
+            return 425m;
         }
     }
 }
