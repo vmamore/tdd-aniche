@@ -3,6 +3,7 @@ using Xunit;
 
 namespace simplicade_e_baby_steps
 {
+    // Solucao mais simples != modificacao mais simples
     public class CalculadoraDeSalarioTestes
     {
         [Fact]
@@ -57,12 +58,7 @@ namespace simplicade_e_baby_steps
 
     public class CalculadoraDeSalario {
         public decimal CalculaSalario(Funcionario funcionario){
-            if(funcionario.Cargo == Cargo.DESENVOLVEDOR){
-                if(funcionario.Salario > 3000) return 3200.0m;
-                return 1350.0m;
-            }
-
-            return 425m;
+            return 1500m * 0.9m;
         }
     }
 }
