@@ -29,6 +29,14 @@ namespace introducao_ao_tdd
             int numero = romano.Converte("II");
             Assert.Equal(2, numero);
         }
+
+        [Fact]
+        public void DeveEntenderQuatroSimbolosDoisADoisComoXXII()
+        {
+            ConversorDeNumeroRomano romano = new ConversorDeNumeroRomano();
+            int numero = romano.Converte("XXII");
+            Assert.Equal(22, numero);
+        }
     }
 
     public class ConversorDeNumeroRomano {
