@@ -59,8 +59,13 @@ namespace introducao_ao_tdd
         };
         public int Converte(string numeroEmRomano){
             int acumulador = 0;
-            for(int i = 0; i < numeroEmRomano.Length; i++){
-                acumulador += tabela[numeroEmRomano[i]];
+            int ultimoNumeroADireita = 0;
+            for(int i = numeroEmRomano.Length - 1; i >= 0; i--){
+                int atual = tabela[numeroEmRomano[i]];
+                int multiplicador = 1;
+                if(atual < ultimoNumeroADireita) multiplicador = -1;
+                acumulador += atual * multiplicador;
+                ultimoNumeroADireita = atual;
             }
             return acumulador;
         }
