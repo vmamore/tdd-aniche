@@ -11,9 +11,9 @@ namespace simplicade_e_baby_steps
             CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
             Funcionario desenvolvedor = new Funcionario("Vinicius", 1500.0m, Cargo.DESENVOLVEDOR);
 
-            double salario = calculadora.CalculaSalario(desenvolvedor);
+            decimal salario = calculadora.CalculaSalario(desenvolvedor);
 
-            Assert.Equals(1500.0 * 0.9, salario, 0.00001);
+            Assert.Equal(1500.0m * 0.9m, salario);
         }
     }
 
@@ -25,13 +25,21 @@ namespace simplicade_e_baby_steps
 
     public class Funcionario {
         public string Nome { get; private set; }
-        public double Salario { get; private set; }
+        public decimal Salario { get; private set; }
         public Cargo Cargo { get; private set; }
 
-        public Funcionario(string nome, double salario, Cargo cargo){
+        public Funcionario(string nome, decimal salario, Cargo cargo){
             this.Nome = nome;
             this.Salario =salario;
             this.Cargo = cargo;
         }
     }
+
+    public class CalculadoraDeSalario {
+        public decimal CalculaSalario(Funcionario funcionario){
+            return 1350.0m;
+        }
+    }
 }
+
+
