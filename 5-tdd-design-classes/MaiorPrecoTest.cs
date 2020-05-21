@@ -13,8 +13,7 @@ namespace tdd_design_classes
         {
             CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
             
-            MaiorPreco algoritmo = new MaiorPreco();
-            decimal valor = algoritmo.Encontra(carrinho);
+            decimal valor = carrinho.MaiorValor();
 
             Assert.Equal(0, valor);
         }
@@ -24,8 +23,7 @@ namespace tdd_design_classes
             CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
             carrinho.Adiciona(new Item("Geladeira", 1, 900));
 
-            MaiorPreco algoritmo = new MaiorPreco();
-            decimal valor = algoritmo.Encontra(carrinho);
+            decimal valor = carrinho.MaiorValor();
 
             Assert.Equal(900, valor);
         }
@@ -37,8 +35,7 @@ namespace tdd_design_classes
             carrinho.Adiciona(new Item("Fogão", 1, 1500));
             carrinho.Adiciona(new Item("Maquina de Lavar", 1, 750));
 
-            MaiorPreco algoritmo = new MaiorPreco();
-            decimal valor = algoritmo.Encontra(carrinho);
+            decimal valor = carrinho.MaiorValor();
 
             Assert.Equal(1500, valor);
         }
@@ -69,6 +66,16 @@ namespace tdd_design_classes
         public void Adiciona(Item item)
         {
             _itens.Add(item);
+        }
+
+        public decimal MaiorValor(){
+            if(_itens.Count == 0) return 0;
+            decimal maior = _itens.First().ValorTotal;
+            foreach(var item in _itens){
+                if(maior < item.ValorTotal)
+                    maior = item.ValorTotal;
+            }
+            return maior;
         }
     }
 
