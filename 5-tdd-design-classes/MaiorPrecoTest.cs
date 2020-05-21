@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Xunit;
 
 namespace tdd_design_classes
@@ -32,14 +33,15 @@ namespace tdd_design_classes
 
     public class MaiorPreco {
         public decimal Encontra(CarrinhoDeCompras carrinho) {
-            return 0;
+            if(carrinho.Itens.Count == 0) return 0;
+            return carrinho.Itens.First().ValorTotal;
         }
     }
 
     public class CarrinhoDeCompras
     {
         private List<Item> _itens;
-        public IReadOnlyCollection<Item> itens => _itens.AsReadOnly();
+        public IReadOnlyCollection<Item> Itens => _itens.AsReadOnly();
 
         public CarrinhoDeCompras()
         {
@@ -56,9 +58,9 @@ namespace tdd_design_classes
     {
         public string Descricao { get; private set; }
         public int Quantidade { get; private set; }
-        public double ValorUnitario { get; private set; }
+        public decimal ValorUnitario { get; private set; }
 
-        public double ValorTotal
+        public decimal ValorTotal
         {
             get
             {
@@ -69,7 +71,7 @@ namespace tdd_design_classes
 
         public Item(string descricao,
             int quantidade,
-            double valorUnitario)
+            decimal valorUnitario)
         {
             this.Descricao = descricao;
             this.Quantidade = quantidade;
