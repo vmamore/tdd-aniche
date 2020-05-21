@@ -29,6 +29,19 @@ namespace tdd_design_classes
 
             Assert.Equal(900, valor);
         }
+
+        [Fact]
+        public void DeveRetornarMaiorValorSeCarrinhoContemMuitosElementos(){
+            CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
+            carrinho.Adiciona(new Item("Geladeira", 1, 900));
+            carrinho.Adiciona(new Item("Fogão", 1, 1500));
+            carrinho.Adiciona(new Item("Maquina de Lavar", 1, 750));
+
+            MaiorPreco algoritmo = new MaiorPreco();
+            decimal valor = algoritmo.Encontra(carrinho);
+
+            Assert.Equal(1500, valor);
+        }
     }
 
     public class MaiorPreco {
