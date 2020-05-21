@@ -5,12 +5,23 @@ using Xunit;
 
 namespace tdd_design_classes
 {
-    public class UnitTest1
+    public class MaiorPrecoTest
     {
         [Fact]
-        public void Test1()
+        public void DeveRetornarZeroSeCarrinhoVazio()
         {
+            CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
+            
+            MaiorPreco algoritmo = new MaiorPreco();
+            decimal valor = algoritmo.Encontra(carrinho);
 
+            Assert.Equal(0, valor);
+        }
+    }
+
+    public class MaiorPreco {
+        public decimal Encontra(CarrinhoDeCompras carrinho) {
+            return 0;
         }
     }
 
