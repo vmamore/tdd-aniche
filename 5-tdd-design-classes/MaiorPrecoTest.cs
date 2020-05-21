@@ -47,7 +47,12 @@ namespace tdd_design_classes
     public class MaiorPreco {
         public decimal Encontra(CarrinhoDeCompras carrinho) {
             if(carrinho.Itens.Count == 0) return 0;
-            return carrinho.Itens.First().ValorTotal;
+            decimal maior = carrinho.Itens.First().ValorTotal;
+            foreach(var item in carrinho.Itens){
+                if(maior < item.ValorTotal)
+                    maior = item.ValorTotal;
+            }
+            return maior;
         }
     }
 
