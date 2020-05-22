@@ -39,6 +39,20 @@ namespace tdd_e_o_encapsulamento
             Assert.Equal(100.0m, fatura.Pagamentos.ElementAt(0).Valor);
             Assert.Equal(200.0m, fatura.Pagamentos.ElementAt(1).Valor);
         }
+
+        [Fact]
+        public void DeveMarcarFaturaComoPagaCasoBoletoUnicoPagueTudo()
+        {
+            ProcessadorDeBoletos processador = new ProcessadorDeBoletos();
+
+            Fatura fatura = new Fatura("Cliente", 150.0m);
+            Boleto b1 = new Boleto(150.0m);
+            List<Boleto> boletos = new List<Boleto> { b1 };
+
+            processador.Processa(boletos, fatura);
+
+            Assert.True(fatura.EstaPaga());
+        }
     }
     public class ProcessadorDeBoletos
     {
@@ -64,6 +78,11 @@ namespace tdd_e_o_encapsulamento
             this.Cliente = cliente;
             this.Valor = valor;
             this.Pagamentos = new List<Pagamento>();
+        }
+
+        public bool EstaPaga()
+        {
+            return false;
         }
     }
 
