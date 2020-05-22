@@ -9,7 +9,7 @@ namespace tdd_e_a_coesao
         public void DeveCalcularSalarioParaDesenvolvedoresComSalarioAbaixoDoLimite()
         {
             CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
-            Funcionario desenvolvedor = new Funcionario("Vinicius", 1500.0m, Cargo.DESENVOLVEDOR);
+            Funcionario desenvolvedor = new Funcionario("Vinicius", 1500.0m, CargoEnum.DESENVOLVEDOR);
 
             decimal salario = calculadora.CalculaSalario(desenvolvedor);
 
@@ -20,7 +20,7 @@ namespace tdd_e_a_coesao
         public void DeveCalcularSalarioParaDesenvolvedorComSalarioAcimaDoLimite()
         {
             CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
-            Funcionario desenvolvedor = new Funcionario("Vinicius", 4000.0m, Cargo.DESENVOLVEDOR);
+            Funcionario desenvolvedor = new Funcionario("Vinicius", 4000.0m, CargoEnum.DESENVOLVEDOR);
 
             decimal salario = calculadora.CalculaSalario(desenvolvedor);
 
@@ -31,7 +31,7 @@ namespace tdd_e_a_coesao
         public void DeveCalcularSalarioParaDBAsComSalarioAbaixoDoLimite()
         {
             CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
-            Funcionario desenvolvedor = new Funcionario("Vinicius", 1500.0m, Cargo.DBA);
+            Funcionario desenvolvedor = new Funcionario("Vinicius", 1500.0m, CargoEnum.DBA);
 
             decimal salario = calculadora.CalculaSalario(desenvolvedor);
 
@@ -42,7 +42,7 @@ namespace tdd_e_a_coesao
         public void DeveCalcularSalarioParaDBAsComSalarioAcimaDoLimite()
         {
             CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
-            Funcionario desenvolvedor = new Funcionario("Vinicius", 4500.0m, Cargo.DBA);
+            Funcionario desenvolvedor = new Funcionario("Vinicius", 4500.0m, CargoEnum.DBA);
 
             decimal salario = calculadora.CalculaSalario(desenvolvedor);
 
@@ -50,11 +50,27 @@ namespace tdd_e_a_coesao
         }
     }
 
-    public enum Cargo
+    public enum CargoEnum
     {
         DESENVOLVEDOR,
         DBA,
         TESTADOR
+    }
+
+    public class Cargo
+    {
+        public static Cargo DESENVOLVEDOR
+        { get { return new Cargo(new DezOuVintePorCento()); } }
+        public static Cargo DBA
+        { get { return new Cargo(new QuinzeOuVinteCincoPorcento()); } }
+        public static Cargo TESTADOR
+        { get { return new Cargo(new QuinzeOuVinteCincoPorcento()); } }
+        public IRegraDeCalculo Regra { get; private set; }
+
+        public Cargo(IRegraDeCalculo regra)
+        {
+            this.Regra = regra;
+        }
     }
 
     public class Funcionario
@@ -63,11 +79,26 @@ namespace tdd_e_a_coesao
         public decimal Salario { get; private set; }
         public Cargo Cargo { get; private set; }
 
-        public Funcionario(string nome, decimal salario, Cargo cargo)
+        public Funcionario(string nome, decimal salario, CargoEnum cargo)
         {
             this.Nome = nome;
             this.Salario = salario;
-            this.Cargo = cargo;
+            this.Cargo = ObterCargo(cargo);
+        }
+
+        private Cargo ObterCargo(CargoEnum cargoEnum)
+        {
+            switch (cargoEnum)
+            {
+                case CargoEnum.DBA:
+                    return Cargo.DBA;
+                case CargoEnum.DESENVOLVEDOR:
+                    return Cargo.DESENVOLVEDOR;
+                case CargoEnum.TESTADOR:
+                    return Cargo.TESTADOR;
+                default:
+                    return null;
+            }
         }
     }
 
@@ -75,30 +106,32 @@ namespace tdd_e_a_coesao
     {
         public decimal CalculaSalario(Funcionario funcionario)
         {
-            if (funcionario.Cargo == Cargo.DESENVOLVEDOR)
-            {
-                return dezOuVintePorCentoDeDesconto(funcionario);
-            }
-            else if (funcionario.Cargo == Cargo.DBA ||
-                     funcionario.Cargo == Cargo.TESTADOR)
-            {
-                return quinzeOuVinteCincoPorCentoDeDesconto(funcionario);
-            }
-
-            throw new ArgumentException("Funcionário inválido!");
+            return funcionario.Cargo.Regra.Calcula(funcionario);
         }
+    }
 
-        private decimal quinzeOuVinteCincoPorCentoDeDesconto(Funcionario funcionario){
-            if(funcionario.Salario < 2500) return funcionario.Salario * 0.85m;
+    public interface IRegraDeCalculo
+    {
+        decimal Calcula(Funcionario f);
+    }
 
-            return funcionario.Salario * 0.75m;
-        }
-
-        private decimal dezOuVintePorCentoDeDesconto(Funcionario funcionario){
-            if(funcionario.Salario > 2500) return funcionario.Salario * 0.80m;
+    public class DezOuVintePorCento : IRegraDeCalculo
+    {
+        public decimal Calcula(Funcionario funcionario)
+        {
+            if (funcionario.Salario > 2500) return funcionario.Salario * 0.80m;
 
             return funcionario.Salario * 0.9m;
         }
+    }
 
+    public class QuinzeOuVinteCincoPorcento : IRegraDeCalculo
+    {
+        public decimal Calcula(Funcionario funcionario)
+        {
+            if (funcionario.Salario < 2500) return funcionario.Salario * 0.85m;
+
+            return funcionario.Salario * 0.75m;
+        }
     }
 }
