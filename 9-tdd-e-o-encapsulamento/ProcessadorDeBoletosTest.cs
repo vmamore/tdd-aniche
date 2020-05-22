@@ -24,14 +24,16 @@ namespace tdd_e_o_encapsulamento
         }
 
         [Fact]
-        public void DeveProcessarPagamentoViaMuitosBoletos() {
+        public void DeveProcessarPagamentoViaMuitosBoletos()
+        {
             ProcessadorDeBoletos processador = new ProcessadorDeBoletos();
 
             Fatura fatura = new Fatura("Cliente", 300.0m);
             Boleto b1 = new Boleto(100.0m);
             Boleto b2 = new Boleto(200.0m);
-            
+
             List<Boleto> boletos = new List<Boleto> { b1, b2 };
+            processador.Processa(boletos, fatura);
 
             Assert.Equal(2, fatura.Pagamentos.Count());
             Assert.Equal(100.0m, fatura.Pagamentos.ElementAt(0).Valor);
@@ -42,10 +44,12 @@ namespace tdd_e_o_encapsulamento
     {
         public void Processa(List<Boleto> boletos, Fatura fatura)
         {
-            Boleto boleto = boletos.First();
-            Pagamento pagamento = new Pagamento(boleto.Valor, MeioDePagamento.BOLETO);
+            foreach (var boleto in boletos)
+            {
+                Pagamento pagamento = new Pagamento(boleto.Valor, MeioDePagamento.BOLETO);
 
-            fatura.Pagamentos.Add(pagamento);
+                fatura.Pagamentos.Add(pagamento);
+            }
         }
     }
 
