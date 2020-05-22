@@ -41,12 +41,22 @@ namespace tdd_e_o_acoplamento
     }
 
     public class GeradorDeNotaFiscal{
+
+        private NFDao _dao;
+
+        public GeradorDeNotaFiscal(NFDao dao){
+            _dao = dao;
+        }
         public NotaFiscal Gera(Pedido pedido){
-            return new NotaFiscal(
+            var notaFiscal = new NotaFiscal(
                 pedido.Cliente,
                 pedido.ValorTotal * 0.94m,
                 DateTime.UtcNow
             );
+
+            _dao.Persiste(notaFiscal);
+
+            return notaFiscal;
         }
     }
 
