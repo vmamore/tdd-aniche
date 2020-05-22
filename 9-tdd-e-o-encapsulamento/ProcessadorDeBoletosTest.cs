@@ -46,7 +46,7 @@ namespace tdd_e_o_encapsulamento
             ProcessadorDeBoletos processador = new ProcessadorDeBoletos();
 
             Fatura fatura = new Fatura("Cliente", 150.0m);
-            Boleto b1 = new Boleto(150.0m);
+            Boleto b1 = new Boleto(150.1m);
             List<Boleto> boletos = new List<Boleto> { b1 };
 
             processador.Processa(boletos, fatura);
@@ -58,18 +58,12 @@ namespace tdd_e_o_encapsulamento
     {
         public void Processa(List<Boleto> boletos, Fatura fatura)
         {
-            var valorTotal = 0m;
             foreach (var boleto in boletos)
             {
                 Pagamento pagamento = new Pagamento(boleto.Valor, MeioDePagamento.BOLETO);
 
-                fatura.Pagamentos.Add(pagamento);
-
-                valorTotal += boleto.Valor;
+                fatura.AdicionaPagamento(pagamento);
             }
-
-            if(valorTotal >= fatura.Valor)
-                fatura.SetarPaga();
         }
     }
 
@@ -85,6 +79,19 @@ namespace tdd_e_o_encapsulamento
             this.Cliente = cliente;
             this.Valor = valor;
             this.Pagamentos = new List<Pagamento>();
+        }
+
+        public void AdicionaPagamento(Pagamento pagamento)
+        {
+            this.Pagamentos.Add(pagamento);
+
+            decimal valorTotal = 0;
+            foreach (Pagamento p in this.Pagamentos)
+            {
+                valorTotal += p.Valor;
+            }
+
+            if (valorTotal >= this.Valor) this.SetarPaga();
         }
 
         public void SetarPaga()
