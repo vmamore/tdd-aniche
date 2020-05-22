@@ -12,7 +12,7 @@ namespace tdd_e_o_acoplamento
             Pedido pedido = new Pedido("Mauricio", 1000m, 1);
 
             NotaFiscal nf = gerador.Gera(pedido);
-            Assert.Equals(1000 * 0.94m, nf.Valor);
+            Assert.Equal(1000 * 0.94m, nf.Valor);
         }
     }
 
@@ -37,6 +37,16 @@ namespace tdd_e_o_acoplamento
             this.Cliente = cliente;
             this.Valor=valor;
             this.Data = data;
+        }
+    }
+
+    public class GeradorDeNotaFiscal{
+        public NotaFiscal Gera(Pedido pedido){
+            return new NotaFiscal(
+                pedido.Cliente,
+                pedido.ValorTotal * 0.94m,
+                DateTime.UtcNow
+            );
         }
     }
 
