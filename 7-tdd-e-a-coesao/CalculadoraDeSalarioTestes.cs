@@ -29,11 +29,21 @@ namespace tdd_e_a_coesao
         [Fact]
         public void DeveCalcularSalarioParaDBAsComSalarioAbaixoDoLimite(){
             CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
-            Funcionario desenvolvedor = new Funcionario("Vinicius", 500.0m, Cargo.DBA);
+            Funcionario desenvolvedor = new Funcionario("Vinicius", 1500.0m, Cargo.DBA);
 
             decimal salario = calculadora.CalculaSalario(desenvolvedor);
 
-            Assert.Equal(500.0m * 0.85m, salario);
+            Assert.Equal(1500.0m * 0.85m, salario);
+        }
+
+        [Fact]
+        public void DeveCalcularSalarioParaDBAsComSalarioAcimaDoLimite(){
+            CalculadoraDeSalario calculadora = new CalculadoraDeSalario();
+            Funcionario desenvolvedor = new Funcionario("Vinicius", 4500.0m, Cargo.DBA);
+
+            decimal salario = calculadora.CalculaSalario(desenvolvedor);
+
+            Assert.Equal(4500.0m * 0.75m, salario);
         }
     }
 
