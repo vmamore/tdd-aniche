@@ -65,9 +65,9 @@ namespace tdd_e_a_coesao
         { get { return new Cargo(new QuinzeOuVinteCincoPorcento()); } }
         public static Cargo TESTADOR
         { get { return new Cargo(new QuinzeOuVinteCincoPorcento()); } }
-        public IRegraDeCalculo Regra { get; private set; }
+        public RegraDeCalculo Regra { get; private set; }
 
-        public Cargo(IRegraDeCalculo regra)
+        public Cargo(RegraDeCalculo regra)
         {
             this.Regra = regra;
         }
@@ -110,28 +110,33 @@ namespace tdd_e_a_coesao
         }
     }
 
-    public interface IRegraDeCalculo
+    public abstract class RegraDeCalculo
     {
-        decimal Calcula(Funcionario f);
-    }
+        public abstract decimal ValorLimite { get;}
+        public abstract decimal PorcentagemAcimaDoLimite { get; }
+        public abstract decimal PorcentagemBase { get; }
+        public decimal Calcula(Funcionario f){
+            if(f.Salario > ValorLimite){
+                return f.Salario * PorcentagemAcimaDoLimite;
+            }
 
-    public class DezOuVintePorCento : IRegraDeCalculo
-    {
-        public decimal Calcula(Funcionario funcionario)
-        {
-            if (funcionario.Salario > 2500) return funcionario.Salario * 0.80m;
-
-            return funcionario.Salario * 0.9m;
+            return f.Salario * PorcentagemBase;
         }
     }
 
-    public class QuinzeOuVinteCincoPorcento : IRegraDeCalculo
+    public class DezOuVintePorCento : RegraDeCalculo
     {
-        public decimal Calcula(Funcionario funcionario)
-        {
-            if (funcionario.Salario < 2500) return funcionario.Salario * 0.85m;
+        public override decimal ValorLimite => 3000m; 
+        public override decimal PorcentagemAcimaDoLimite => 0.8m;
+        public override decimal PorcentagemBase => 0.9m;
+    }
 
-            return funcionario.Salario * 0.75m;
-        }
+    public class QuinzeOuVinteCincoPorcento : RegraDeCalculo
+    {
+        public override decimal ValorLimite => 4000m;
+
+        public override decimal PorcentagemAcimaDoLimite => 0.75m;
+
+        public override decimal PorcentagemBase => 0.85m;
     }
 }
