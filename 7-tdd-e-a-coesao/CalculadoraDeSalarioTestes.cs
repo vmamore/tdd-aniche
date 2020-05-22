@@ -77,23 +77,28 @@ namespace tdd_e_a_coesao
         {
             if (funcionario.Cargo == Cargo.DESENVOLVEDOR)
             {
-                if (funcionario.Salario > 3000)
-                {
-                    return funcionario.Salario * 0.8m;
-                }
-                return funcionario.Salario * 0.9m;
+                return dezOuVintePorCentoDeDesconto(funcionario);
             }
             else if (funcionario.Cargo == Cargo.DBA ||
-                     funcionario.Cargo = Cargo.TESTADOR)
+                     funcionario.Cargo == Cargo.TESTADOR)
             {
-                if (funcionario.Salario < 2500)
-                {
-                    return funcionario.Salario * 0.85m;
-                }
-                return funcionario.Salario * 0.75m;
-            } )
+                return quinzeOuVinteCincoPorCentoDeDesconto(funcionario);
+            }
 
             throw new ArgumentException("Funcionário inválido!");
         }
+
+        private decimal quinzeOuVinteCincoPorCentoDeDesconto(Funcionario funcionario){
+            if(funcionario.Salario < 2500) return funcionario.Salario * 0.85m;
+
+            return funcionario.Salario * 0.75m;
+        }
+
+        private decimal dezOuVintePorCentoDeDesconto(Funcionario funcionario){
+            if(funcionario.Salario > 2500) return funcionario.Salario * 0.80m;
+
+            return funcionario.Salario * 0.9m;
+        }
+
     }
 }
