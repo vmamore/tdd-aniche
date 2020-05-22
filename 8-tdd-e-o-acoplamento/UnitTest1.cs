@@ -1,4 +1,5 @@
 using System;
+using Moq;
 using Xunit;
 
 namespace tdd_e_o_acoplamento
@@ -8,7 +9,8 @@ namespace tdd_e_o_acoplamento
         [Fact]
         public void DeveGerarNFComValorDeImpostoDescontado()
         {
-            GeradorDeNotaFiscal gerador = new GeradorDeNotaFiscal();
+            Mock<NFDao> daoMock = new Mock<NFDao>();
+            GeradorDeNotaFiscal gerador = new GeradorDeNotaFiscal(daoMock.Object);
             Pedido pedido = new Pedido("Mauricio", 1000m, 1);
 
             NotaFiscal nf = gerador.Gera(pedido);
