@@ -10,7 +10,9 @@ namespace tdd_e_o_acoplamento
         public void DeveGerarNFComValorDeImpostoDescontado()
         {
             Mock<NFDao> daoMock = new Mock<NFDao>();
-            GeradorDeNotaFiscal gerador = new GeradorDeNotaFiscal(daoMock.Object);
+            Mock<SAP> sapMock = new Mock<SAP>();
+
+            GeradorDeNotaFiscal gerador = new GeradorDeNotaFiscal(daoMock.Object, sapMock.Object);
             Pedido pedido = new Pedido("Mauricio", 1000m, 1);
 
             NotaFiscal nf = gerador.Gera(pedido);
@@ -45,9 +47,11 @@ namespace tdd_e_o_acoplamento
     public class GeradorDeNotaFiscal{
 
         private NFDao _dao;
+        private SAP _sap;
 
-        public GeradorDeNotaFiscal(NFDao dao){
+        public GeradorDeNotaFiscal(NFDao dao, SAP sap){
             _dao = dao;
+            _sap = sap;
         }
         public NotaFiscal Gera(Pedido pedido){
             var notaFiscal = new NotaFiscal(
@@ -57,6 +61,7 @@ namespace tdd_e_o_acoplamento
             );
 
             _dao.Persiste(notaFiscal);
+            _sap.Envia(notaFiscal);
 
             return notaFiscal;
         }
