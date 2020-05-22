@@ -58,12 +58,18 @@ namespace tdd_e_o_encapsulamento
     {
         public void Processa(List<Boleto> boletos, Fatura fatura)
         {
+            var valorTotal = 0m;
             foreach (var boleto in boletos)
             {
                 Pagamento pagamento = new Pagamento(boleto.Valor, MeioDePagamento.BOLETO);
 
                 fatura.Pagamentos.Add(pagamento);
+
+                valorTotal += boleto.Valor;
             }
+
+            if(valorTotal >= fatura.Valor)
+                fatura.SetarPaga();
         }
     }
 
@@ -72,6 +78,7 @@ namespace tdd_e_o_encapsulamento
         public ICollection<Pagamento> Pagamentos { get; }
         public string Cliente { get; }
         public decimal Valor { get; }
+        public bool Pago { get; private set; }
 
         public Fatura(string cliente, decimal valor)
         {
@@ -80,9 +87,14 @@ namespace tdd_e_o_encapsulamento
             this.Pagamentos = new List<Pagamento>();
         }
 
+        public void SetarPaga()
+        {
+            this.Pago = true;
+        }
+
         public bool EstaPaga()
         {
-            return false;
+            return this.Pago;
         }
     }
 
