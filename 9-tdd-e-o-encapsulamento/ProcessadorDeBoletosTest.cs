@@ -23,56 +23,70 @@ namespace tdd_e_o_encapsulamento
             Assert.Equal(150.0m, fatura.Pagamentos.First().Valor);
         }
 
-        public class ProcessadorDeBoletos
-        {
-            public void Processa(List<Boleto> boletos, Fatura fatura)
-            {
-                Boleto boleto = boletos.First();
-                Pagamento pagamento = new Pagamento(boleto.Valor, MeioDePagamento.BOLETO);
+        [Fact]
+        public void DeveProcessarPagamentoViaMuitosBoletos() {
+            ProcessadorDeBoletos processador = new ProcessadorDeBoletos();
 
-                fatura.Pagamentos.Add(pagamento);
-            }
+            Fatura fatura = new Fatura("Cliente", 300.0m);
+            Boleto b1 = new Boleto(100.0m);
+            Boleto b2 = new Boleto(200.0m);
+            
+            List<Boleto> boletos = new List<Boleto> { b1, b2 };
+
+            Assert.Equal(2, fatura.Pagamentos.Count());
+            Assert.Equal(100.0m, fatura.Pagamentos.ElementAt(0).Valor);
+            Assert.Equal(200.0m, fatura.Pagamentos.ElementAt(1).Valor);
         }
-
-        public class Fatura
+    }
+    public class ProcessadorDeBoletos
+    {
+        public void Processa(List<Boleto> boletos, Fatura fatura)
         {
-            public ICollection<Pagamento> Pagamentos { get; }
-            public string Cliente { get; }
-            public decimal Valor { get; }
+            Boleto boleto = boletos.First();
+            Pagamento pagamento = new Pagamento(boleto.Valor, MeioDePagamento.BOLETO);
 
-            public Fatura(string cliente, decimal valor)
-            {
-                this.Cliente = cliente;
-                this.Valor = valor;
-                this.Pagamentos = new List<Pagamento>();
-            }
+            fatura.Pagamentos.Add(pagamento);
         }
+    }
 
-        public class Boleto
+    public class Fatura
+    {
+        public ICollection<Pagamento> Pagamentos { get; }
+        public string Cliente { get; }
+        public decimal Valor { get; }
+
+        public Fatura(string cliente, decimal valor)
         {
-            public decimal Valor { get; }
-
-            public Boleto(decimal valor)
-            {
-                this.Valor = valor;
-            }
+            this.Cliente = cliente;
+            this.Valor = valor;
+            this.Pagamentos = new List<Pagamento>();
         }
+    }
 
-        public enum MeioDePagamento
+    public class Boleto
+    {
+        public decimal Valor { get; }
+
+        public Boleto(decimal valor)
         {
-            BOLETO
+            this.Valor = valor;
         }
+    }
 
-        public class Pagamento
+    public enum MeioDePagamento
+    {
+        BOLETO
+    }
+
+    public class Pagamento
+    {
+        public decimal Valor { get; set; }
+        public MeioDePagamento MeioDePagamento { get; set; }
+
+        public Pagamento(decimal valor, MeioDePagamento meioDePagamento)
         {
-            public decimal Valor { get; set; }
-            public MeioDePagamento MeioDePagamento { get; set; }
-
-            public Pagamento(decimal valor, MeioDePagamento meioDePagamento)
-            {
-                this.Valor = valor;
-                this.MeioDePagamento = meioDePagamento;
-            }
+            this.Valor = valor;
+            this.MeioDePagamento = meioDePagamento;
         }
     }
 }
