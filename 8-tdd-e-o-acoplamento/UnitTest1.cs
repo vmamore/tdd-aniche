@@ -4,6 +4,7 @@ using Xunit;
 
 namespace tdd_e_o_acoplamento
 {
+    // god classes: pouca regra de negócio e apenas coordenam o processo de várias classes juntas
     public class NotaFiscalTestes
     {
         [Fact]
