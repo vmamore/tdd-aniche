@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Moq;
 using Xunit;
 
@@ -10,13 +11,20 @@ namespace tdd_e_o_acoplamento
         [Fact]
         public void DeveGerarNFComValorDeImpostoDescontado()
         {
-            Mock<NFDao> daoMock = new Mock<NFDao>();
-            Mock<SAP> sapMock = new Mock<SAP>();
+            Mock<AcaoAposGerarNota> acao1 = new Mock<AcaoAposGerarNota>();
+            Mock<AcaoAposGerarNota> acao2 = new Mock<AcaoAposGerarNota>();
 
-            GeradorDeNotaFiscal gerador = new GeradorDeNotaFiscal(daoMock.Object, sapMock.Object);
+            List<AcaoAposGerarNota> listaAcoes = new List<AcaoAposGerarNota>{
+                acao1.Object,
+                acao2.Object
+            };
+
+            GeradorDeNotaFiscal gerador = new GeradorDeNotaFiscal(listaAcoes);
+
             Pedido pedido = new Pedido("Mauricio", 1000m, 1);
 
             NotaFiscal nf = gerador.Gera(pedido);
+
             Assert.Equal(1000 * 0.94m, nf.Valor);
         }
     }
@@ -47,22 +55,25 @@ namespace tdd_e_o_acoplamento
 
     public class GeradorDeNotaFiscal{
 
-        private NFDao _dao;
-        private SAP _sap;
+        private List<AcaoAposGerarNota> _acoes;
+        private IRelogio _relogio;
 
-        public GeradorDeNotaFiscal(NFDao dao, SAP sap){
-            _dao = dao;
-            _sap = sap;
+        public GeradorDeNotaFiscal(List<AcaoAposGerarNota> acoes) : this(acoes, new RelogioDoSistema()){
+        }
+
+        public GeradorDeNotaFiscal(List<AcaoAposGerarNota> acoes, IRelogio relogio){
+            _acoes = acoes;
+            _relogio = relogio;
         }
         public NotaFiscal Gera(Pedido pedido){
             var notaFiscal = new NotaFiscal(
                 pedido.Cliente,
                 pedido.ValorTotal * 0.94m,
-                DateTime.UtcNow
+                _relogio.Hoje()
             );
 
-            _dao.Persiste(notaFiscal);
-            _sap.Envia(notaFiscal);
+            foreach(var acao in _acoes)
+                acao.Executa(notaFiscal);
 
             return notaFiscal;
         }
@@ -78,6 +89,22 @@ namespace tdd_e_o_acoplamento
     public class NFDao {
         public void Persiste(NotaFiscal nf){
 
+        }
+    }
+
+    public interface AcaoAposGerarNota{
+        void Executa(NotaFiscal nf);
+    }
+
+    public interface IRelogio {
+        DateTime Hoje();
+    }
+
+    public class RelogioDoSistema : IRelogio
+    {
+        public DateTime Hoje()
+        {
+            return DateTime.UtcNow;
         }
     }
 }
