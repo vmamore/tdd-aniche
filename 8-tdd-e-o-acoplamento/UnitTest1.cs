@@ -3,12 +3,16 @@ using Xunit;
 
 namespace tdd_e_o_acoplamento
 {
-    public class UnitTest1
+    public class NotaFiscalTestes
     {
         [Fact]
-        public void Test1()
+        public void DeveGerarNFComValorDeImpostoDescontado()
         {
+            GeradorDeNotaFiscal gerador = new GeradorDeNotaFiscal();
+            Pedido pedido = new Pedido("Mauricio", 1000m, 1);
 
+            NotaFiscal nf = gerador.Gera(pedido);
+            Assert.Equals(1000 * 0.94m, nf.Valor);
         }
     }
 
@@ -45,7 +49,7 @@ namespace tdd_e_o_acoplamento
 
     public class NFDao {
         public void Persiste(NotaFiscal nf){
-            
+
         }
     }
 }
