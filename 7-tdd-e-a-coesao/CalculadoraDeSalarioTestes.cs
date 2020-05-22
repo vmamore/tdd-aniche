@@ -83,14 +83,15 @@ namespace tdd_e_a_coesao
                 }
                 return funcionario.Salario * 0.9m;
             }
-            else if (funcionario.Cargo == Cargo.DBA)
+            else if (funcionario.Cargo == Cargo.DBA ||
+                     funcionario.Cargo = Cargo.TESTADOR)
             {
                 if (funcionario.Salario < 2500)
                 {
                     return funcionario.Salario * 0.85m;
                 }
                 return funcionario.Salario * 0.75m;
-            }
+            } )
 
             throw new ArgumentException("Funcionário inválido!");
         }
