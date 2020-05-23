@@ -24,6 +24,11 @@ namespace quando_nao_usar_tdd
     //         Se fizermos uma analogia, imagine esses códigos sejam como os andaimes utilizados durante a obra.
     //         Eles não fazem parte do produto final, estão lá apenas para ajudar no desenvolvimento.
     // - 3.2 - O padrão "Adapter" pode ajudar o dev a conectar código bem escrito com o legado que deve ser mantido.
+
+
+    // Sugestões de livros:
+    // 1 - Test-Driven-Development: By example - Kent Beck
+    // 2 - Growing Object Oriented Software, Guided By Tests - Steve Freeman and Nat Pryce
     public class UnitTest1
     {
         [Fact]
